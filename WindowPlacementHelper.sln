@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowPlacementHelper", "WindowPlacement\WindowPlacementHelper.csproj", "{39B0C729-A64E-4F39-A765-615990B74AFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowPlacementHelper", "WindowPlacementHelper\WindowPlacementHelper.csproj", "{39B0C729-A64E-4F39-A765-615990B74AFF}"
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "WindowPlacementHelperSetup", "WindowPlacementHelperSetup\WindowPlacementHelperSetup.isproj", "{0C4A27DB-D924-4759-9936-EE57097D623B}"
 	ProjectSection(ProjectDependencies) = postProject
