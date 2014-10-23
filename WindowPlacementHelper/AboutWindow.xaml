@@ -1,0 +1,25 @@
+﻿<Window x:Class="WindowPlacementHelper.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Window Placement Helper"  Height="241" Width="353" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <StackPanel>
+
+
+        <!--
+      in order to create a NotifyIcon, all you need is the
+      namespace declaration (see above on line 4) and a simple
+      declaration
+    -->
+
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" >
+            Window Placement Helper
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center" >
+            Copyright (c) 2014 Michiel van Wessem
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center" >
+            Helps to restore window positions when changing resolutions, docking/undocking your laptop etc.
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Text="Hey.. please don't distribute this version until I work out how I want to distribute it." />
+    </StackPanel>
+</Window>
