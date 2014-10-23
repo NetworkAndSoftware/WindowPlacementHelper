@@ -19,7 +19,7 @@ namespace WindowPlacementHelper
     {
       InitializeComponent();
       
-      var timer = new Timer(Callback, null, 0, 30000);
+      var timer = new Timer(Callback, null, 0, 10000);
       SystemEvents.DisplaySettingsChanged += SystemEventsOnDisplaySettingsChanged;
 
       //TaskbarIcon.Icon = SystemIcons.Application;
@@ -36,35 +36,35 @@ namespace WindowPlacementHelper
       RestoreWindows();
     }
 
-    private static void Describe(Windows.Window w, Windows.Window.Info info, Windows.Window.Placement placement)
+    private static void Describe(Windows.Window w, Windows.Window.Info info, Windows.Window.PlacementType placement)
     {
       Trace.WriteLine(String.Format("{3:x8} : Text: '{0}', Rect: {1}, ShowCommand: {2}", w.Text,
         info.WindowRectangle, placement.ShowCommand, (int) w.Handle));
     }
 
-    private static bool IsInteresting(Windows.Window w, Windows.Window.Placement placement)
+    private static bool IsInteresting(Windows.Window w, Windows.Window.PlacementType placement)
     {
       if (!w.Visible)
         return false;
 
       switch (placement.ShowCommand)
       {
-        //case Windows.Window.Placement.ShowCommandEnum.ShowMaximized:
-        case Windows.Window.Placement.ShowCommandEnum.ShowMinimized:
+        //case Windows.Window.PlacementType.ShowCommandEnum.ShowMaximized:
+        case Windows.Window.PlacementType.ShowCommandEnum.ShowMinimized:
           return false;
       }
 
       return true;
     }
 
-    private readonly Dictionary<Rectangle, Dictionary<Windows.Window, Rectangle>> _positions = new Dictionary<Rectangle, Dictionary<Windows.Window, Rectangle>>();
+    private readonly Dictionary<Rectangle, Dictionary<Windows.Window, Windows.Window.PlacementType>> _positions = new Dictionary<Rectangle, Dictionary<Windows.Window, Windows.Window.PlacementType>>();
     private AboutWindow _about;
 
     private void SaveWindows()
     {
       lock (_positions)
       {
-        var positions = new Dictionary<Windows.Window, Rectangle>();
+        var positions = new Dictionary<Windows.Window, Windows.Window.PlacementType>();
 
         var desktoprectangle = Windows.Window.GetDesktop().GetInfo().WindowRectangle;
         _positions[desktoprectangle] = positions;
@@ -73,20 +73,13 @@ namespace WindowPlacementHelper
 
         foreach (Windows.Window w in Windows.EnumWindows())
         {
-          Windows.Window.Placement placement = w.GetPlacement();
-          Windows.Window.Info info = w.GetInfo();
+          var placement = w.Placement;
 
           if (!IsInteresting(w, placement))
             continue;
 
-          positions[w] = (info.WindowRectangle);
+          positions[w] = placement;
         }
-
-        //foreach (var w in positions)
-        //{
-        //  if (w.Key.Text == "MainWindow")
-        //    Describe(w.Key, w.Key.GetInfo(), w.Key.GetPlacement());
-        //}
       }
     }
 
@@ -110,7 +103,7 @@ namespace WindowPlacementHelper
         foreach (var w in positions)
           try
           {
-            w.Key.Position = w.Value;
+            w.Key.Placement = w.Value;
           }
           catch (Exception)
           {

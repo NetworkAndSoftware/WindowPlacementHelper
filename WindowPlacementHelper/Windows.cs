@@ -575,12 +575,18 @@ namespace WindowPlacementHelper
 
       }
 
-      public Placement GetPlacement()
+      public PlacementType Placement
       {
-        return new Placement(hWnd);
+        get { return new PlacementType(hWnd); }
+
+        set
+        {
+          value.Write(hWnd); 
+        }
       }
 
-      public class Placement
+
+      public class PlacementType
       {
         public enum ShowCommandEnum
         {
@@ -726,13 +732,20 @@ namespace WindowPlacementHelper
 
         private WINDOWPLACEMENT? _windowplacement;
 
-        internal Placement(IntPtr hWnd)
+        internal PlacementType(IntPtr hWnd)
         {
           var w = WINDOWPLACEMENT.CreateOne();
           if (GetWindowPlacement(hWnd, ref w))
             _windowplacement = w;
           else
             throw new Exception();
+        }
+
+        internal void Write(IntPtr hWnd)
+        {
+// ReSharper disable once PossibleInvalidOperationException
+          var w = _windowplacement.Value;
+          SetWindowPlacement(hWnd, ref w);
         }
 
         public ShowCommandEnum ShowCommand
