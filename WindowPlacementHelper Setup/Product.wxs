@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+
+  <Product Name="Window Placement Helper" Id="4D9AA2A1-CFFD-45C5-8B72-8ADD9417FCE2" Language="1033" Version="0.03.0.0" Manufacturer="Michiel van Wessem" UpgradeCode="5eaca85b-fd22-4609-a26a-b0dad36a21e1">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x64"/>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="Window Placement Helper" Level="1">
+      <ComponentGroupRef Id="ProductFeature" />
+    </Feature>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="WindowPlacementHelper" />
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="WindowsPlacementMenuDir" Name="Window Placement Helper">
+        </Directory>
+      </Directory>
+
+      <Directory Id="StartMenuFolder">
+      </Directory>
+    </Directory>
+
+
+    <ComponentGroup Id="ProductFeature" Directory="INSTALLFOLDER">
+      <Component Id="MainExecutable" Guid="44D35C60-BCAE-4714-9696-5C7DD15EF4D7" >
+        <File Id="WindowPlacementHelper.exe" Source="$(var.WindowPlacementHelper.TargetPath)" KeyPath="yes" >
+          <Shortcut Id='MainShortcut' Directory='WindowsPlacementMenuDir' Name='Window Placement Helper' Advertise='yes'/>
+          <Shortcut Id='StartupShortCut' Directory='StartMenuFolder' Name='Window Placement Helper' Advertise='yes'  />
+        </File>
+        <RemoveFolder Id='WindowsPlacementMenuDir' Directory='WindowsPlacementMenuDir' On='uninstall' />
+      </Component>
+      <Component Id="TaskbarNotificationDll" Guid="90DEF275-101B-40FF-9BDF-EB946D6A21F7">
+        <File Source="$(var.WindowPlacementHelper.TargetDir)\Hardcodet.Wpf.TaskbarNotification.dll"  KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+
+    <Property Id="WixShellExecTarget" Value="[#WindowPlacementHelper.exe]" />
+    <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" Execute="immediate" />
+
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Start Window Placement Helper" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
+
+    <UI>
+      <UIRef Id="WixUI_Minimal" />
+
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+
+    </UI>
+
+    <WixVariable Id="WixUILicenseRtf" Value="networkandsoftware.rtf" />
+  </Product>
+
+</Wix>

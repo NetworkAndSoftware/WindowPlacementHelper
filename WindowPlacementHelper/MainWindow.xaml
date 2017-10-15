@@ -11,7 +11,7 @@
       namespace declaration (see above on line 4) and a simple
       declaration
     -->
-        <tb:TaskbarIcon Name="TaskbarIcon" ToolTipText="hello world" IconSource="Windows.ico" >
+        <tb:TaskbarIcon Name="TaskbarIcon" ToolTipText="Window Placement Helper" IconSource="Windows.ico" >
             <!-- Set a simple context menu  -->
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
